@@ -13,11 +13,9 @@ export const signUp = async (req, res) => {
     // Send confirmation email
     await emailRegister({ email, name, token: newUser.token });
 
-    res
-      .status(201)
-      .json({
-        msg: 'Usuario registrado satisfactoriamente, verifica tu email.',
-      });
+    res.status(201).json({
+      msg: 'Usuario registrado satisfactoriamente, verifica tu email.',
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ ok: false, msg: 'Algo salió mal!' });
@@ -28,7 +26,7 @@ export const signIn = async (req, res) => {
   const { email } = req.body;
 
   try {
-    const user = await User.findOne({ email }).select('email name uid');
+    const user = await User.findOne({ email });
 
     // Generate JWT
     const jwt = genJWT(user.id);

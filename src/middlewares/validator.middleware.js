@@ -35,3 +35,9 @@ export const loginRules = () => [
   validate,
   checkLoginCredentials,
 ];
+
+// Users
+export const genRecoveryTokenRules = () => [
+  body('email', 'Invalid email!').isEmail(),
+  validate,
+];
