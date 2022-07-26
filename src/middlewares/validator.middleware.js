@@ -3,6 +3,15 @@
 import { body, validationResult } from 'express-validator';
 
 import { isAlreadyRegistered } from '../helpers';
+import { checkLoginCredentials } from './auth.middleware';
+
+export const validate = (req, res, next) => {
+  console.log(req.body);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json(errors);
+
+  return next();
+};
 
 // Auth
 export const emailPassRules = () => [
@@ -21,10 +30,8 @@ export const signUpRules = () => [
   validate,
 ];
 
-export const validate = (req, res, next) => {
-  console.log(req.body);
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).json(errors);
-
-  return next();
-};
+export const loginRules = () => [
+  ...emailPassRules(),
+  validate,
+  checkLoginCredentials,
+];
