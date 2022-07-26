@@ -41,3 +41,6 @@ export const genRecoveryToken = async (req, res) => {
     res.status(500).json({ msg: 'Something went wrong!' });
   }
 };
+
+export const validateToken = async (_req, res) =>
+  res.status(200).json({ msg: 'Successful validation!' });
