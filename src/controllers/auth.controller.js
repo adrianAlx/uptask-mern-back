@@ -15,10 +15,12 @@ export const signUp = async (req, res) => {
 
     res
       .status(201)
-      .json({ msg: 'User successfully created, check your email.' });
+      .json({
+        msg: 'Usuario registrado satisfactoriamente, verifica tu email.',
+      });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ ok: false, msg: 'Something went wrong!' });
+    res.status(500).json({ ok: false, msg: 'Algo salió mal!' });
   }
 };
 
@@ -26,7 +28,7 @@ export const signIn = async (req, res) => {
   const { email } = req.body;
 
   try {
-    const user = await User.findOne({ email }).select('email name token uid');
+    const user = await User.findOne({ email }).select('email name uid');
 
     // Generate JWT
     const jwt = genJWT(user.id);
@@ -34,6 +36,6 @@ export const signIn = async (req, res) => {
     res.status(200).json({ msg: 'Successful login!', token: jwt, user });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ ok: false, msg: 'Something went wrong!' });
+    res.status(500).json({ ok: false, msg: 'Algo salió mal!' });
   }
 };

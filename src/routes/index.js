@@ -1,5 +1,6 @@
 'use strict';
 
 import authRoutes from './auth.routes';
+import usersRoutes from './users.routes';
 
-export { authRoutes };
+export { authRoutes, usersRoutes };
