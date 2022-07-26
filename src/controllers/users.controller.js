@@ -10,12 +10,11 @@ export const confirmUser = async (req, res) => {
     await User.findOneAndUpdate({ token }, { token: null, confirmed: true });
 
     res.status(200).json({
-      ok: true,
       msg: 'Successful confirmation!',
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: 'Something went wrong!' });
+    res.status(500).json({ msg: 'Algo salió mal!' });
   }
 };
 
@@ -38,9 +37,26 @@ export const genRecoveryToken = async (req, res) => {
       .json({ msg: 'Se le ha enviado un email con instrucciones.' });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: 'Something went wrong!' });
+    res.status(500).json({ msg: 'Algo salió mal!' });
   }
 };
 
 export const validateToken = async (_req, res) =>
   res.status(200).json({ msg: 'Successful validation!' });
+
+export const genNewPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    const user = await User.findOne({ token });
+    user.token = null;
+    user.password = password;
+    await user.save();
+
+    res.status(201).json({ msg: 'Password actualizada correctamente!' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Algo salió mal!' });
+  }
+};

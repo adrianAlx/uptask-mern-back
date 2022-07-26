@@ -3,10 +3,9 @@
 import { body, validationResult } from 'express-validator';
 
 import { isAlreadyRegistered } from '../helpers';
-import { checkLoginCredentials } from './auth.middleware';
+import { checkLoginCredentials, checkToken } from '.';
 
 export const validate = (req, res, next) => {
-  console.log(req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json(errors);
 
@@ -40,4 +39,10 @@ export const loginRules = () => [
 export const genRecoveryTokenRules = () => [
   body('email', 'Invalid email!').isEmail(),
   validate,
+];
+
+export const genNewPasswordRules = () => [
+  body('password', 'Password is required!').notEmpty(),
+  validate,
+  checkToken,
 ];
