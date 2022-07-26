@@ -60,3 +60,10 @@ export const genNewPassword = async (req, res) => {
     res.status(500).json({ msg: 'Algo salió mal!' });
   }
 };
+
+export const isAuthenticated = (req, res) => {
+  const { authenticatedUser } = req;
+  if (!authenticatedUser) return res.status(401).json({ msg: 'Unauthorized!' });
+
+  res.status(200).json({ user: authenticatedUser });
+};

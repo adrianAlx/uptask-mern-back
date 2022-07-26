@@ -6,11 +6,13 @@ import {
   checkToken,
   genNewPasswordRules,
   genRecoveryTokenRules,
+  protectWithJwt,
 } from '../middlewares';
 import {
   confirmUser,
   genNewPassword,
   genRecoveryToken,
+  isAuthenticated,
   validateToken,
 } from '../controllers';
 
@@ -24,5 +26,8 @@ router
   .route('/password-recovery/:token')
   .get(checkToken, validateToken)
   .post(genNewPasswordRules(), genNewPassword);
+
+// Private
+router.get('/profile', protectWithJwt, isAuthenticated);
 
 export default router;
