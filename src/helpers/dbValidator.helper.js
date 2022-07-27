@@ -1,6 +1,6 @@
 'use strict';
 
-import { Project, User } from './../models';
+import { Project, Task, User } from './../models';
 
 export const isAlreadyRegistered = async (query, collection) => {
   let model;
@@ -60,6 +60,17 @@ export const idExistInDB = async (id, collection, req) => {
       checkInCollection();
       return isSameUer(model, authenticatedUser);
 
+    case 'task':
+      model = await Task.findById(id).populate('project');
+      checkInCollection();
+
+      if (
+        model.project.owner._id.toString() !== authenticatedUser._id.toString()
+      )
+        throw new Error('Unauthorized!');
+
+      return;
+
     default:
       throw new Error('Something went wrong!');
   }
@@ -68,4 +79,11 @@ export const idExistInDB = async (id, collection, req) => {
 export const isEmailRegistered = async email => {
   const user = await User.findOne({ email });
   if (!user || !user.confirmed) throw new Error('Usuario no encontrado!');
+};
+
+export const isValidPriority = priority => {
+  if (!['baja', 'media', 'alta'].includes(priority.toLowerCase()))
+    throw new Error(`Invalid priority! - ${priority}`);
+
+  return true;
 };

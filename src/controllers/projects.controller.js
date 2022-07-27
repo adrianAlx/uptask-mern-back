@@ -112,12 +112,12 @@ export const addCollaborator = async (req, res) => {
     if (project.collaborators.includes(user._id))
       return res
         .status(401)
-        .json({ msg: 'El usuario ya es colaborador de este proyecto!' });
+        .json({ msg: 'El usuario ya es colaborador en este proyecto!' });
 
     project.collaborators.push(user._id);
     await project.save();
 
-    res.status(200).json({ msg: 'Collaborator successfully added!' });
+    res.status(200).json({ msg: 'Colaborador agregado satisfactoriamente!' });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: 'Algo salió mal!' });
@@ -134,7 +134,5 @@ export const removeCollaborator = async (req, res) => {
   project.collaborators.pull(partnerId);
   await project.save();
 
-  res
-    .status(200)
-    .json({ ok: true, msg: 'Colaborador removido correctamente!' });
+  res.status(200).json({ msg: 'Colaborador removido correctamente!' });
 };
