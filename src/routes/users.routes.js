@@ -6,12 +6,14 @@ import {
   checkToken,
   genNewPasswordRules,
   genRecoveryTokenRules,
+  getUserByEmailRules,
   protectWithJwt,
 } from '../middlewares';
 import {
   confirmUser,
   genNewPassword,
   genRecoveryToken,
+  getUserByEmail,
   isAuthenticated,
   validateToken,
 } from '../controllers';
@@ -29,5 +31,7 @@ router
 
 // Private
 router.get('/profile', protectWithJwt, isAuthenticated);
+
+router.put('/', getUserByEmailRules(), getUserByEmail);
 
 export default router;

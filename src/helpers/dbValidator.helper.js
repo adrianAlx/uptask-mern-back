@@ -64,3 +64,8 @@ export const idExistInDB = async (id, collection, req) => {
       throw new Error('Something went wrong!');
   }
 };
+
+export const isEmailRegistered = async email => {
+  const user = await User.findOne({ email });
+  if (!user || !user.confirmed) throw new Error('Usuario no encontrado!');
+};

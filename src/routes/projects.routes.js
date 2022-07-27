@@ -24,6 +24,8 @@ router.use(protectWithJwt);
 
 router.route('/').post(createProjectRules(), createProject).get(getProjects);
 
+// router.route('/collaborators').put(getPartnerRules(), getCollaborator);
+
 router
   .route('/:id')
   .get(getProjectRules(), getProject)

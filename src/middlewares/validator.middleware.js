@@ -5,6 +5,7 @@ import { body, validationResult, param } from 'express-validator';
 import {
   idExistInDB,
   isAlreadyRegistered,
+  isEmailRegistered,
   isSameUserOrPartner,
 } from '../helpers';
 import { checkLoginCredentials, checkToken } from '.';
@@ -49,6 +50,14 @@ export const genNewPasswordRules = () => [
   body('password', 'Password is required!').notEmpty(),
   validate,
   checkToken,
+];
+
+export const getUserByEmailRules = () => [
+  body('email', 'Invalid email!').isEmail(),
+  validate,
+
+  body('email').custom(isEmailRegistered),
+  validate,
 ];
 
 // Projects

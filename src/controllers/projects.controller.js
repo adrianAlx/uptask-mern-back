@@ -89,3 +89,5 @@ export const deleteProject = async (req, res) => {
     res.status(500).json({ msg: 'Algo salió mal!' });
   }
 };
+
+// Collaborators

@@ -67,3 +67,10 @@ export const isAuthenticated = (req, res) => {
 
   res.status(200).json({ user: authenticatedUser });
 };
+
+export const getUserByEmail = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+
+  res.status(200).json({ user });
+};
