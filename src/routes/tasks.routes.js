@@ -8,7 +8,7 @@ import {
   taskIdRules,
   updateTaskRules,
 } from '../middlewares';
-import { createTask, getTask, updateTask } from '../controllers';
+import { createTask, deleteTask, getTask, updateTask } from '../controllers';
 
 const router = Router();
 
@@ -19,6 +19,7 @@ router.post('/', createTaskRules(), createTask);
 router
   .route('/:id')
   .get(taskIdRules(), getTask)
-  .put(updateTaskRules(), updateTask);
+  .put(updateTaskRules(), updateTask)
+  .delete(taskIdRules(), deleteTask);
 
 export default router;

@@ -52,3 +52,20 @@ export const updateTask = async (req, res) => {
     res.status(500).json({ msg: 'Something went wrong!' });
   }
 };
+
+export const deleteTask = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const task = await Task.findByIdAndDelete(id);
+
+    const project = await Project.findById(task.project);
+    project.tasks.pull(task._id);
+    await project.save();
+
+    res.status(200).json({ msg: 'Tarea eleminada correctamente!' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Something went wrong!' });
+  }
+};
