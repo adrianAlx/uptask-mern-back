@@ -2,8 +2,12 @@
 
 import { Router } from 'express';
 
-import { createProjectRules, protectWithJwt } from '../middlewares';
-import { createProject, getProjects } from '../controllers';
+import {
+  createProjectRules,
+  getProjectRules,
+  protectWithJwt,
+} from '../middlewares';
+import { createProject, getProject, getProjects } from '../controllers';
 
 const router = Router();
 
@@ -11,5 +15,7 @@ const router = Router();
 router.use(protectWithJwt);
 
 router.route('/').post(createProjectRules(), createProject).get(getProjects);
+
+router.route('/:id').get(getProjectRules(), getProject);
 
 export default router;

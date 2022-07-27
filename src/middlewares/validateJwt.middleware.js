@@ -12,7 +12,6 @@ export const protectWithJwt = async (req, res, next) => {
     return res.status(401).json({ ok: false, msg: 'Invalid token!' });
 
   const tokenJwt = bearerToken.split(' ')[1];
-  console.log(tokenJwt);
 
   try {
     const { id } = jwt.verify(tokenJwt, SECRETORKEY_JWT);

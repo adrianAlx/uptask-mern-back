@@ -18,7 +18,7 @@ export const createProject = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ ok: false, msg: 'Something went wrong!' });
+    res.status(500).json({ msg: 'Something went wrong!' });
   }
 };
 
@@ -37,9 +37,23 @@ export const getProjects = async (req, res) => {
       Project.countDocuments(ownProjects),
     ]);
 
-    res.status(200).json({ ok: true, total, projects });
+    res.status(200).json({ total, projects });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ ok: false, msg: 'Something went wrong!' });
+    res.status(500).json({ msg: 'Something went wrong!' });
   }
+};
+
+export const getProject = async (req, res) => {
+  const { id } = req.params;
+
+  const project = await Project.findById(id)
+    .populate('owner', 'email name')
+    .populate('collaborators', 'email name')
+    .populate({
+      path: 'tasks',
+      populate: { path: 'completedBy', select: 'name' },
+    }); // populate a 1 populate
+
+  res.status(200).json({ project });
 };

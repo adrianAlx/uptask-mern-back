@@ -1,8 +1,8 @@
 'use strict';
 
-import { body, validationResult } from 'express-validator';
+import { body, validationResult, param } from 'express-validator';
 
-import { isAlreadyRegistered } from '../helpers';
+import { isAlreadyRegistered, isSameUserOrPartner } from '../helpers';
 import { checkLoginCredentials, checkToken } from '.';
 
 export const validate = (req, res, next) => {
@@ -52,5 +52,13 @@ export const createProjectRules = () => [
   body('name', 'Invalid name!').notEmpty(),
   body('description', 'Invalid description!').notEmpty(),
   body('client', 'Invalid client!').notEmpty(),
+  validate,
+];
+
+export const getProjectRules = () => [
+  param('id', 'Invalid ID!').isMongoId(),
+  validate,
+
+  param('id').custom((id, { req }) => isSameUserOrPartner(id, 'project', req)),
   validate,
 ];
