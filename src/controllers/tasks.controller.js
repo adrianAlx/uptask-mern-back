@@ -24,7 +24,7 @@ export const createTask = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: 'Something went wrong!' });
+    res.status(500).json({ msg: 'Algo salió mal!' });
   }
 };
 
@@ -49,7 +49,7 @@ export const updateTask = async (req, res) => {
     res.status(200).json({ msg: 'Tarea actualizada correctamente!', task });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: 'Something went wrong!' });
+    res.status(500).json({ msg: 'Algo salió mal!' });
   }
 };
 
@@ -66,6 +66,30 @@ export const deleteTask = async (req, res) => {
     res.status(200).json({ msg: 'Tarea eleminada correctamente!' });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: 'Something went wrong!' });
+    res.status(500).json({ msg: 'Algo salió mal!' });
+  }
+};
+
+export const toggleState = async (req, res) => {
+  const { id } = req.params;
+  const { authenticatedUser } = req;
+
+  try {
+    const task = await Task.findById(id);
+    const savedTask = await Task.findByIdAndUpdate(
+      id,
+      {
+        state: !task.state,
+        completedBy: authenticatedUser._id,
+      },
+      { new: true }
+    )
+      .populate('project')
+      .populate('completedBy');
+
+    res.status(200).json({ savedTask });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Algo salió mal!' });
   }
 };

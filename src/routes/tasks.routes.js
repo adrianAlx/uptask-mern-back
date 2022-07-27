@@ -6,9 +6,16 @@ import {
   createTaskRules,
   protectWithJwt,
   taskIdRules,
+  toggleStateRules,
   updateTaskRules,
 } from '../middlewares';
-import { createTask, deleteTask, getTask, updateTask } from '../controllers';
+import {
+  createTask,
+  deleteTask,
+  getTask,
+  toggleState,
+  updateTask,
+} from '../controllers';
 
 const router = Router();
 
@@ -21,5 +28,7 @@ router
   .get(taskIdRules(), getTask)
   .put(updateTaskRules(), updateTask)
   .delete(taskIdRules(), deleteTask);
+
+router.patch('/state/:id', toggleStateRules(), toggleState);
 
 export default router;

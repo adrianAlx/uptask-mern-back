@@ -87,3 +87,21 @@ export const isValidPriority = priority => {
 
   return true;
 };
+
+export const isSameUserOrPartnerTask = async (id, collection, req) => {
+  const { authenticatedUser } = req;
+
+  const task = await Task.findById(id).populate(
+    'project',
+    'owner collaborators'
+  );
+  if (!task) throw new Error(`${collection} ID: '${id} doesn't exist in DB!`);
+
+  if (
+    task.project.owner._id.toString() !== authenticatedUser._id.toString() &&
+    !task.project.collaborators.some(
+      partner => partner._id.toString() === authenticatedUser._id.toString()
+    )
+  )
+    throw new Error('Unauthorized!');
+};

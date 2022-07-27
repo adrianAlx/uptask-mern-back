@@ -7,6 +7,7 @@ import {
   isAlreadyRegistered,
   isEmailRegistered,
   isSameUserOrPartner,
+  isSameUserOrPartnerTask,
   isValidPriority,
 } from '../helpers';
 import { checkLoginCredentials, checkToken } from '.';
@@ -94,7 +95,7 @@ export const removePartnerRules = () => [
   validate,
 ];
 
-// Tasks:
+// Tasks
 export const createTaskRules = () => [
   body('name', 'Invalid name!').notEmpty(),
   body('description', 'Invalid description!').notEmpty(),
@@ -118,4 +119,12 @@ export const updateTaskRules = () => [
   body('priority').custom(isValidPriority),
   validate,
   ...taskIdRules(),
+];
+
+export const toggleStateRules = () => [
+  param('id', 'Invalid ID!').isMongoId(),
+  validate,
+
+  param('id').custom((id, { req }) => isSameUserOrPartnerTask(id, 'task', req)),
+  validate,
 ];
