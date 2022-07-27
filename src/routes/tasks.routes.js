@@ -2,14 +2,15 @@
 
 import { Router } from 'express';
 
-import { createTask } from '../controllers';
-
-import { createTaskRules, protectWithJwt } from '../middlewares';
+import { createTaskRules, protectWithJwt, taskIdRules } from '../middlewares';
+import { createTask, getTask } from '../controllers';
 
 const router = Router();
 
 router.use(protectWithJwt);
 
 router.post('/', createTaskRules(), createTask);
+
+router.route('/:id').get(taskIdRules(), getTask);
 
 export default router;

@@ -27,3 +27,10 @@ export const createTask = async (req, res) => {
     res.status(500).json({ msg: 'Something went wrong!' });
   }
 };
+
+export const getTask = async (req, res) => {
+  const { id } = req.params;
+  const task = await Task.findById(id).populate('project', 'name');
+
+  res.status(200).json({ task });
+};

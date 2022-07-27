@@ -105,3 +105,10 @@ export const createTaskRules = () => [
   body('project').custom((id, { req }) => idExistInDB(id, 'project', req)),
   validate,
 ];
+
+export const taskIdRules = () => [
+  param('id', 'Invalid ID!').isMongoId(),
+  validate,
+  param('id').custom((id, { req }) => idExistInDB(id, 'task', req)),
+  validate,
+];
