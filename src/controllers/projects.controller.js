@@ -18,7 +18,7 @@ export const createProject = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: 'Something went wrong!' });
+    res.status(500).json({ msg: 'Algo salió mal!' });
   }
 };
 
@@ -40,7 +40,7 @@ export const getProjects = async (req, res) => {
     res.status(200).json({ total, projects });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: 'Something went wrong!' });
+    res.status(500).json({ msg: 'Algo salió mal!' });
   }
 };
 
@@ -74,6 +74,18 @@ export const updateProject = async (req, res) => {
       .json({ msg: 'Proyecto actualizado satisfactoriamente!', project });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: 'Something went wrong!' });
+    res.status(500).json({ msg: 'Algo salió mal!' });
+  }
+};
+
+export const deleteProject = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Project.findByIdAndDelete(id);
+
+    res.status(200).json({ msg: 'Proyecto eliminado satisfactoriamente!' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Algo salió mal!' });
   }
 };

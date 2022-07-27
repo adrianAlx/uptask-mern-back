@@ -4,12 +4,14 @@ import { Router } from 'express';
 
 import {
   createProjectRules,
+  deleteProjectRules,
   getProjectRules,
   protectWithJwt,
   updateProjectRules,
 } from '../middlewares';
 import {
   createProject,
+  deleteProject,
   getProject,
   getProjects,
   updateProject,
@@ -25,6 +27,7 @@ router.route('/').post(createProjectRules(), createProject).get(getProjects);
 router
   .route('/:id')
   .get(getProjectRules(), getProject)
-  .put(updateProjectRules(), updateProject);
+  .put(updateProjectRules(), updateProject)
+  .delete(deleteProjectRules(), deleteProject);
 
 export default router;
