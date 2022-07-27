@@ -123,3 +123,18 @@ export const addCollaborator = async (req, res) => {
     res.status(500).json({ msg: 'Algo salió mal!' });
   }
 };
+
+export const removeCollaborator = async (req, res) => {
+  const { id } = req.params;
+  const { partnerId } = req.body;
+
+  const project = await Project.findById(id);
+
+  // Delete collaborator - pull of Mongoose
+  project.collaborators.pull(partnerId);
+  await project.save();
+
+  res
+    .status(200)
+    .json({ ok: true, msg: 'Colaborador removido correctamente!' });
+};

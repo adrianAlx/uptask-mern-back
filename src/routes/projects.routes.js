@@ -3,12 +3,11 @@
 import { Router } from 'express';
 
 import {
-  addPartnerRules,
   createProjectRules,
-  deleteProjectRules,
   getProjectRules,
+  projectIdRules,
   protectWithJwt,
-  updateProjectRules,
+  removePartnerRules,
 } from '../middlewares';
 import {
   addCollaborator,
@@ -16,6 +15,7 @@ import {
   deleteProject,
   getProject,
   getProjects,
+  removeCollaborator,
   updateProject,
 } from '../controllers';
 
@@ -29,9 +29,12 @@ router.route('/').post(createProjectRules(), createProject).get(getProjects);
 router
   .route('/:id')
   .get(getProjectRules(), getProject)
-  .put(updateProjectRules(), updateProject)
-  .delete(deleteProjectRules(), deleteProject);
+  .put(projectIdRules(), updateProject)
+  .delete(projectIdRules(), deleteProject);
 
-router.route('/collaborator/:id').post(addPartnerRules(), addCollaborator);
+router
+  .route('/collaborator/:id')
+  .post(projectIdRules(), addCollaborator)
+  .put(removePartnerRules(), removeCollaborator);
 
 export default router;

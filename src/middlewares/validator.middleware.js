@@ -76,7 +76,7 @@ export const getProjectRules = () => [
   validate,
 ];
 
-export const updateProjectRules = () => [
+export const projectIdRules = () => [
   param('id', 'Invalid ID!').isMongoId(),
   validate,
 
@@ -84,16 +84,9 @@ export const updateProjectRules = () => [
   validate,
 ];
 
-export const deleteProjectRules = () => [
+export const removePartnerRules = () => [
   param('id', 'Invalid ID!').isMongoId(),
-  validate,
-
-  param('id').custom((id, { req }) => idExistInDB(id, 'project', req)),
-  validate,
-];
-
-export const addPartnerRules = () => [
-  param('id', 'Invalid ID!').isMongoId(),
+  body('partnerId', 'Invalid ID!').isMongoId(),
   validate,
 
   param('id').custom((id, { req }) => idExistInDB(id, 'project', req)),
