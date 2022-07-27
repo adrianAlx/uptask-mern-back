@@ -46,3 +46,11 @@ export const genNewPasswordRules = () => [
   validate,
   checkToken,
 ];
+
+// Projects
+export const createProjectRules = () => [
+  body('name', 'Invalid name!').notEmpty(),
+  body('description', 'Invalid description!').notEmpty(),
+  body('client', 'Invalid client!').notEmpty(),
+  validate,
+];
