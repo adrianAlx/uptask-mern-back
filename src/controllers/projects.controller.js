@@ -57,3 +57,23 @@ export const getProject = async (req, res) => {
 
   res.status(200).json({ project });
 };
+
+export const updateProject = async (req, res) => {
+  const { id } = req.params;
+  const { name, client, description, deliveryDate } = req.body;
+
+  try {
+    const project = await Project.findByIdAndUpdate(
+      id,
+      { name, client, description, deliveryDate },
+      { new: true }
+    );
+
+    res
+      .status(200)
+      .json({ msg: 'Proyecto actualizado satisfactoriamente!', project });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Something went wrong!' });
+  }
+};

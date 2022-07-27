@@ -2,7 +2,11 @@
 
 import { body, validationResult, param } from 'express-validator';
 
-import { isAlreadyRegistered, isSameUserOrPartner } from '../helpers';
+import {
+  idExistInDB,
+  isAlreadyRegistered,
+  isSameUserOrPartner,
+} from '../helpers';
 import { checkLoginCredentials, checkToken } from '.';
 
 export const validate = (req, res, next) => {
@@ -60,5 +64,13 @@ export const getProjectRules = () => [
   validate,
 
   param('id').custom((id, { req }) => isSameUserOrPartner(id, 'project', req)),
+  validate,
+];
+
+export const updateProjectRules = () => [
+  param('id', 'Invalid ID!').isMongoId(),
+  validate,
+
+  param('id').custom((id, { req }) => idExistInDB(id, 'project', req)),
   validate,
 ];

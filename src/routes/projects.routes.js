@@ -6,8 +6,14 @@ import {
   createProjectRules,
   getProjectRules,
   protectWithJwt,
+  updateProjectRules,
 } from '../middlewares';
-import { createProject, getProject, getProjects } from '../controllers';
+import {
+  createProject,
+  getProject,
+  getProjects,
+  updateProject,
+} from '../controllers';
 
 const router = Router();
 
@@ -16,6 +22,9 @@ router.use(protectWithJwt);
 
 router.route('/').post(createProjectRules(), createProject).get(getProjects);
 
-router.route('/:id').get(getProjectRules(), getProject);
+router
+  .route('/:id')
+  .get(getProjectRules(), getProject)
+  .put(updateProjectRules(), updateProject);
 
 export default router;
