@@ -1,6 +1,6 @@
 'use strict';
 
-import { Project } from '../models';
+import { Project, User } from '../models';
 
 export const createProject = async (req, res) => {
   const { name, description, client, deliveryDate } = req.body;
@@ -91,3 +91,35 @@ export const deleteProject = async (req, res) => {
 };
 
 // Collaborators
+export const addCollaborator = async (req, res) => {
+  const { id } = req.params;
+  const { email } = req.body;
+
+  try {
+    const project = await Project.findById(id);
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.status(404).json({ ok: false, msg: 'Usuario no encontrado!' });
+
+    // Owner can't be a collaborator in your project  <- Do it also in Front
+    if (project.owner._id.toString() === user._id.toString())
+      return res.status(401).json({
+        msg: 'El creador del proyecto no puede ser colaborador!',
+        ok: false,
+      });
+
+    // Not yet a collaborator
+    if (project.collaborators.includes(user._id))
+      return res
+        .status(401)
+        .json({ msg: 'El usuario ya es colaborador de este proyecto!' });
+
+    project.collaborators.push(user._id);
+    await project.save();
+
+    res.status(200).json({ msg: 'Collaborator successfully added!' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Algo salió mal!' });
+  }
+};

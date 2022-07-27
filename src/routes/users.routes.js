@@ -32,6 +32,6 @@ router
 // Private
 router.get('/profile', protectWithJwt, isAuthenticated);
 
-router.put('/', getUserByEmailRules(), getUserByEmail);
+router.put('/', [protectWithJwt, ...getUserByEmailRules()], getUserByEmail);
 
 export default router;

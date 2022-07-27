@@ -3,6 +3,7 @@
 import { Router } from 'express';
 
 import {
+  addPartnerRules,
   createProjectRules,
   deleteProjectRules,
   getProjectRules,
@@ -10,6 +11,7 @@ import {
   updateProjectRules,
 } from '../middlewares';
 import {
+  addCollaborator,
   createProject,
   deleteProject,
   getProject,
@@ -24,12 +26,12 @@ router.use(protectWithJwt);
 
 router.route('/').post(createProjectRules(), createProject).get(getProjects);
 
-// router.route('/collaborators').put(getPartnerRules(), getCollaborator);
-
 router
   .route('/:id')
   .get(getProjectRules(), getProject)
   .put(updateProjectRules(), updateProject)
   .delete(deleteProjectRules(), deleteProject);
+
+router.route('/collaborator/:id').post(addPartnerRules(), addCollaborator);
 
 export default router;

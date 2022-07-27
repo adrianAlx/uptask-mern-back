@@ -91,3 +91,11 @@ export const deleteProjectRules = () => [
   param('id').custom((id, { req }) => idExistInDB(id, 'project', req)),
   validate,
 ];
+
+export const addPartnerRules = () => [
+  param('id', 'Invalid ID!').isMongoId(),
+  validate,
+
+  param('id').custom((id, { req }) => idExistInDB(id, 'project', req)),
+  validate,
+];
