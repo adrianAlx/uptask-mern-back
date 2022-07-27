@@ -34,3 +34,21 @@ export const getTask = async (req, res) => {
 
   res.status(200).json({ task });
 };
+
+export const updateTask = async (req, res) => {
+  const { id } = req.params;
+  const { name, description, priority, deliveryDate, state } = req.body;
+
+  try {
+    const task = await Task.findByIdAndUpdate(
+      id,
+      { name, description, priority, deliveryDate, state },
+      { new: true }
+    );
+
+    res.status(200).json({ msg: 'Tarea actualizada correctamente!', task });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Something went wrong!' });
+  }
+};

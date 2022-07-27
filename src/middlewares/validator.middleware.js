@@ -109,6 +109,13 @@ export const createTaskRules = () => [
 export const taskIdRules = () => [
   param('id', 'Invalid ID!').isMongoId(),
   validate,
+
   param('id').custom((id, { req }) => idExistInDB(id, 'task', req)),
   validate,
+];
+
+export const updateTaskRules = () => [
+  body('priority').custom(isValidPriority),
+  validate,
+  ...taskIdRules(),
 ];
