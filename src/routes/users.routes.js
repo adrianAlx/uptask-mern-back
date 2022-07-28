@@ -20,6 +20,8 @@ import {
 
 const router = Router();
 
+router.post('/', [protectWithJwt, ...getUserByEmailRules()], getUserByEmail);
+
 router.get('/confirm/:token', checkToken, confirmUser);
 
 router.post('/recovery-token', genRecoveryTokenRules(), genRecoveryToken);
@@ -31,7 +33,5 @@ router
 
 // Private
 router.get('/profile', protectWithJwt, isAuthenticated);
-
-router.put('/', [protectWithJwt, ...getUserByEmailRules()], getUserByEmail);
 
 export default router;

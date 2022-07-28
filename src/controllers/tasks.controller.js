@@ -87,7 +87,7 @@ export const toggleState = async (req, res) => {
       .populate('project')
       .populate('completedBy');
 
-    res.status(200).json({ savedTask });
+    res.status(200).json({ task: savedTask });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: 'Algo salió mal!' });
