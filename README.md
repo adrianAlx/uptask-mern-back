@@ -18,6 +18,14 @@ npm run build
 npm run start
 ```
 
+## Running the app with Docker
+
+Running the app in a development environment with docker on port 3300
+
+```
+docker compose -f docker-compose-dev.yml up --build
+```
+
 ## Testing
 
 ### Jest with supertest
